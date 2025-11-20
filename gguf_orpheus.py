@@ -23,6 +23,7 @@ TEMPERATURE = 0.6
 TOP_P = 0.9
 REPETITION_PENALTY = 1.1
 SAMPLE_RATE = 24000  # SNAC model uses 24kHz
+STATIC_SEED = -1
 
 # Available voices based on the Orpheus-TTS repository
 AVAILABLE_VOICES = ["tara", "leah", "jess", "leo", "dan", "mia", "zac", "zoe"]
@@ -49,7 +50,7 @@ def format_prompt(prompt, voice=DEFAULT_VOICE):
     return f"{special_start}{formatted_prompt}{special_end}"
 
 def generate_tokens_from_api(prompt, voice=DEFAULT_VOICE, temperature=TEMPERATURE, 
-                            top_p=TOP_P, max_tokens=MAX_TOKENS, repetition_penalty=REPETITION_PENALTY):
+                            top_p=TOP_P, max_tokens=MAX_TOKENS, repetition_penalty=REPETITION_PENALTY, seed=STATIC_SEED):
     """Generate tokens from text using LM Studio API."""
     formatted_prompt = format_prompt(prompt, voice)
     print(f"Generating speech for: {formatted_prompt}")
@@ -62,7 +63,8 @@ def generate_tokens_from_api(prompt, voice=DEFAULT_VOICE, temperature=TEMPERATUR
         "temperature": temperature,
         "top_p": top_p,
         "repeat_penalty": repetition_penalty,
-        "stream": True
+        "stream": True,
+        "seed": seed
     }
     
     # Make the API request with streaming
